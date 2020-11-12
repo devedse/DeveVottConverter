@@ -29,6 +29,13 @@ namespace DeveVottConverter
             foreach (var vottAsset in vott.Assets)
             {
                 var expectedAssetJsonPath = Path.Combine(vottDir, $"{vottAsset.Key}-asset.json");
+
+                if (!File.Exists(expectedAssetJsonPath))
+                {
+                    Console.WriteLine($"Skipping: {expectedAssetJsonPath}");
+                    continue;
+                }
+
                 var assetContent = File.ReadAllText(expectedAssetJsonPath);
                 var asset = JsonConvert.DeserializeObject<VottJsonAsset>(assetContent);
 

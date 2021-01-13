@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Linq;
 
 namespace DeveVottConverter.ConsoleApp
 {
@@ -7,9 +9,18 @@ namespace DeveVottConverter.ConsoleApp
         public static void Main(string[] args)
         {
             var vottFilePath = @"C:\XGitPrivate\DeveLicensePlateDataSet\Export\DeveLicensePlateDataSet.vott";
-            var convertedContent = VottConverter.ConvertToCsvForYolo(vottFilePath);
+            var convertedContent = VottConverter.ConvertToCsvForYolo(vottFilePath, true);
 
-            File.WriteAllText("annotations.csv", convertedContent);
+            RandomListSorter.Shuffle(convertedContent, 1337);
+
+            int testSetCount = (int)Math.Round(convertedContent.Count / 100.0 * 20.0);
+            int trainSetCount = convertedContent.Count - testSetCount;
+
+            var trainSet = convertedContent.Take(trainSetCount).OrderBy(t => t).ToList();
+            var testSet = convertedContent.Skip(trainSetCount).OrderBy(t => t).ToList();
+
+            File.WriteAllLines("train.txt", trainSet);
+            File.WriteAllLines("val.txt", testSet);
         }
     }
 }

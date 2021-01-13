@@ -9,7 +9,7 @@ namespace DeveVottConverter.ConsoleApp
         public static void Main(string[] args)
         {
             var vottFilePath = @"C:\XGitPrivate\DeveLicensePlateDataSet\Export\DeveLicensePlateDataSet.vott";
-            var convertedContent = VottConverter.ConvertToCsvForYolo(vottFilePath, true);
+            var convertedContent = VottConverter.ConvertToCsvForYoloV4Tensorflow(vottFilePath, true);
 
             RandomListSorter.Shuffle(convertedContent, 1337);
 

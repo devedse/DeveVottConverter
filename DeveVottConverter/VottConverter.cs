@@ -47,21 +47,23 @@ namespace DeveVottConverter
                     imagePath = Path.GetFileName(imagePath);
                 }
 
+                var imgWidth = (double)asset.asset.size.width;
+                var imgHeight = (double)asset.asset.size.height;
 
                 var taggedBoxes = asset.regions.Select(t =>
                 {
-                    var x = (int)t.boundingBox.left;
-                    var y = (int)t.boundingBox.top;
-                    var width = (int)t.boundingBox.width;
-                    var height = (int)t.boundingBox.height;
+                    var x = t.boundingBox.left;
+                    var y = t.boundingBox.top;
+                    var width = t.boundingBox.width;
+                    var height = t.boundingBox.height;
 
                     var centerX = x + (width / 2);
                     var centerY = y + (height / 2);
 
-                    var cx = centerX.ToString(c);
-                    var cy = centerY.ToString(c);
-                    var w1 = width.ToString(c);
-                    var h1 = height.ToString(c);
+                    var cx = (centerX / imgWidth).ToString(c);
+                    var cy = (centerY / imgHeight).ToString(c);
+                    var w1 = (width / imgWidth).ToString(c);
+                    var h1 = (height / imgHeight).ToString(c);
 
                     var tag = allTags[t.tags.First()];
                     return $"{tag},{cx},{cy},{w1},{h1}";
